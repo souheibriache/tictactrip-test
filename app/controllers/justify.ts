@@ -3,6 +3,8 @@ import { justifyText } from '../utils/justify-text';
 import fs from 'fs'
 
 const justify = (req: any, res: Response) => {
+    const wordLimit = process.env.WORD_COUNT_LIMIT || 80000
+
     const wordCount = req.body.text.split(' ').length;
     const email = req.email;
   
@@ -21,7 +23,7 @@ const justify = (req: any, res: Response) => {
       users[email] = { count: 0, timestamp: currentDay };
     }
   
-    if (users[email].count + wordCount <= 1000) {
+    if (users[email].count + wordCount <= wordLimit) {
       users[email].count += wordCount;
   
       try {
@@ -30,7 +32,6 @@ const justify = (req: any, res: Response) => {
         console.error('Error writing wordCounts.json:', err);
       }
   
-      console.log(users);
       res.send(justifyText(req.body.text));
     } else {
       res.status(402).send('Payment Required');

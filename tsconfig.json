@@ -5,7 +5,8 @@
       "outDir": "./dist",
       "rootDir": "./app",
       "strict": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "types": ["jest"]
     },
     "include": [
       "app/**/*.ts",

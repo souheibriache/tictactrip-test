@@ -1,16 +1,14 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import fs from 'fs'
-import { JWTSecretKey } from '../constants/secret-keys';
 const getToken = (req: Request, res: Response) => {
-    const { userInput } = req.body;
-    if (!userInput || !userInput.email) {
+    const JWTSecretKey = process.env.JWT_SECRET_KEY as string
+    const { email } = req.body;
+    if (!email) {
       res.status(400).send('An email is required');
       return;
     }
-  
-    const email = userInput.email;
-  
+    
     // Read the user data from the wordCounts.json file
     let users: { [email: string]: { count: number, timestamp: null | number } } = {};
     try {
